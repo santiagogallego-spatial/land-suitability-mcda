@@ -1,5 +1,7 @@
-requests
-rasterio
-numpy
-shapely
-pyproj
+numpy==1.26.4
+pandas==2.1.4
+pyproj==3.6.1
+rasterio==1.3.9
+fiona==1.9.5
+shapely==2.0.3
+geopandas==0.14.3

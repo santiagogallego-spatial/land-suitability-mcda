@@ -18,3 +18,9 @@ data/raw/
 .DS_Store
 Thumbs.db
 
+# GIS / QGIS
+*.aux.xml
+*.ovr
+*.qmd
+.qgis/
+

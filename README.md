@@ -1,70 +1,88 @@
-# Land Suitability Analysis using Multi-Criteria Decision Analysis (MCDA)
+# Land Suitability Analysis  
+### Municipal-Scale Multi-Criteria Decision Analysis (MCDA)
 
 ## Overview
-This project implements a **land suitability analysis** based on **Multi-Criteria Decision Analysis (MCDA)** techniques using geospatial data.  
-It is designed to support **agricultural planning and territorial decision-making** by integrating multiple spatial criteria into a single suitability index.
+This project implements a **municipal-scale land suitability analysis** using **Multi-Criteria Decision Analysis (MCDA)** and geospatial data.  
+It is designed to support **agricultural and territorial planning**, integrating physical, environmental, and accessibility-related criteria into a single, interpretable suitability index.
 
-The workflow is fully **replicable and adaptable** to different regions, crops, or land-use scenarios.
+The workflow is **fully reproducible, configurable, and adaptable** to different municipalities, regions, or land-use scenarios using publicly available data.
+
+---
+
+## Study Area
+The methodology is intended for **municipal-level applications** (approximately 10,000–300,000 hectares), where decision-makers require spatially explicit evidence to guide land-use planning, agricultural development, or zoning processes.
+
+The analysis can be applied to any municipality provided that basic geospatial datasets are available.
 
 ---
 
 ## Objectives
-- Integrate multiple spatial criteria affecting land suitability
-- Normalize heterogeneous geospatial layers into a common scale
-- Apply user-defined weights to each criterion
-- Generate a final land suitability map using weighted overlay
-- Classify suitability levels for decision support
+- Identify areas with higher land suitability based on multiple spatial criteria
+- Integrate heterogeneous geospatial datasets into a unified analytical framework
+- Normalize and weight criteria according to planning priorities
+- Produce clear and interpretable suitability maps for decision support
+- Ensure transparency and reproducibility of the analysis
+
+---
+
+## Suitability Criteria
+The baseline implementation uses a compact and defensible set of criteria commonly applied in professional GIS-based suitability studies:
+
+| Criterion | Description | Role |
+|---------|------------|------|
+| Slope | Terrain steepness derived from a Digital Elevation Model (DEM) | Limiting |
+| Land Use / Land Cover (LULC) | Current land use classification | Restrictive |
+| Distance to Roads | Accessibility and transportation efficiency | Positive |
+| Distance to Settlements | Proximity to population centers and services | Positive |
+| Environmental Constraints | Protected or restricted areas | Exclusion |
+
+All criteria can be modified, added, or removed depending on the planning objective.
 
 ---
 
 ## Methodology
-The analysis follows a standardized MCDA workflow commonly used in professional GIS projects:
+The analysis follows a standardized MCDA workflow commonly used in applied GIS projects:
 
-1. **Spatial preprocessing**
-   - Reprojection to a common CRS
-   - Resolution and extent alignment
-   - Clipping to the study area
-   - NoData handling
+### 1. Spatial Preprocessing
+- Reprojection to a common Coordinate Reference System (CRS)
+- Raster alignment (resolution and extent)
+- Clipping to the municipal boundary
+- NoData and mask handling
 
-2. **Criteria normalization**
-   - Min–max scaling or reclassification
-   - Conversion to a standardized suitability scale
+### 2. Criteria Standardization
+- Normalization of continuous variables (e.g. slope, distances)
+- Reclassification of categorical layers (e.g. land use)
+- Conversion to a common suitability scale
 
-3. **Weight assignment**
-   - User-defined weights based on expert knowledge or decision rules
-   - Weight normalization (sum = 1)
+### 3. Weight Assignment
+- User-defined weights based on expert judgment or planning priorities
+- Weight normalization to ensure consistency
 
-4. **Weighted overlay**
-   - Raster-based aggregation of all criteria
+### 4. Weighted Overlay
+- Raster-based aggregation of all standardized criteria into a continuous suitability index
 
-5. **Final classification**
-   - Suitability classes (e.g. low, medium, high)
-
----
-
-## Potential Applications
-- Agricultural land-use planning
-- Crop suitability assessment
-- Environmental management
-- Territorial planning and zoning
-- Feasibility studies for rural development projects
+### 5. Final Classification
+- Classification of suitability into discrete classes (e.g. low, medium, high)
+- Generation of cartographic outputs and summary statistics
 
 ---
 
-## Tools and Technologies
-- Python
-- GeoPandas
-- Rasterio
-- NumPy
-- Matplotlib
+## Why This Analysis Matters
+This type of land suitability analysis supports:
+
+- Evidence-based municipal land-use planning
+- Identification of priority areas for agricultural or rural development
+- Reduction of environmental and logistical risks
+- Transparent and reproducible spatial decision-making
+- Communication of complex spatial information to non-technical stakeholders
 
 ---
 
 ## Outputs
-- Continuous land suitability raster
+- Continuous land suitability raster (GeoTIFF)
 - Classified suitability map
 - Spatial statistics per suitability class
-- Exportable GeoTIFF outputs
+- Publication-ready cartographic outputs
 
 ---
 
@@ -72,21 +90,40 @@ The analysis follows a standardized MCDA workflow commonly used in professional 
 ```text
 Land_suitability/
 │
-├─ src/              # Source code
-├─ data/             # Input datasets
+├─ src/                  # Source code
+│   ├─ preprocessing/
+│   ├─ suitability/
+│   └─ utils/
+│
+├─ data/                 # Input datasets
 │   ├─ raw/
 │   └─ processed/
-├─ outputs/          # Results and maps
+│
+├─ outputs/              # Results
+│   ├─ rasters/
 │   ├─ maps/
 │   └─ tables/
+│
+├─ config/               # Configuration files (weights, rules)
 ├─ README.md
 ├─ requirements.txt
 └─ .gitignore
-``` 
 
-## Reproducibility 
+---
+
+## Reproducibility and Adaptability
 This project is fully reproducible.  
 All dependencies are managed through a virtual environment and documented in `requirements.txt`.
+
+---
+
+## Tools and Technologies
+- Python
+- PyQGIS (QGIS Processing Framework)
+- GeoPandas
+- Rasterio
+- NumPy
+- Matplotlib
 
 ---
 
