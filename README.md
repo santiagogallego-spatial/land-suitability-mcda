@@ -1,114 +1,105 @@
-# Land Suitability Analysis  
-### Municipal-Scale Multi-Criteria Decision Analysis (MCDA)
-
-## Overview
-This project implements a **municipal-scale land suitability analysis** using **Multi-Criteria Decision Analysis (MCDA)** and geospatial data.  
-It is designed to support **agricultural and territorial planning**, integrating physical, environmental, and accessibility-related criteria into a single, interpretable suitability index.
-
-The workflow is **fully reproducible, configurable, and adaptable** to different municipalities, regions, or land-use scenarios using publicly available data.
+# 🌍 Land Suitability Intelligence: Municipal-Scale MCDA
+### **Advanced Geospatial Decision Support System for AgTech & Territorial Planning**
 
 ---
 
-## Study Area
-The methodology is intended for **municipal-level applications** (approximately 10,000–300,000 hectares), where decision-makers require spatially explicit evidence to guide land-use planning, agricultural development, or zoning processes.
+## 🚀 Strategic Value Proposition
+Identifying the optimal location for high-scale projects is a multi-million dollar challenge. This engine transforms fragmented environmental, physical, and logistical variables into a single **Suitability Score**, reducing the margin of error in land acquisition and zoning.
 
-The analysis can be applied to any municipality provided that basic geospatial datasets are available.
-
----
-
-## Objectives
-- Identify areas with higher land suitability based on multiple spatial criteria
-- Integrate heterogeneous geospatial datasets into a unified analytical framework
-- Normalize and weight criteria according to planning priorities
-- Produce clear and interpretable suitability maps for decision support
-- Ensure transparency and reproducibility of the analysis
+**Key Business Benefits:**
+* **De-Risking Investments:** Identify legal or environmental "No-Go" zones before committing resources.
+* **Operational Efficiency:** Pinpoint land clusters with the best slope and road proximity to minimize long-term CAPEX/OPEX.
+* **Scientific Transparency:** Every pixel is backed by a mathematical weighting process, making the results auditable for stakeholders or regulators.
 
 ---
 
-## Suitability Criteria
-The baseline implementation uses a compact and defensible set of criteria commonly applied in professional GIS-based suitability studies:
+## 📊 Analytical Deliverables & Insights
 
-| Criterion | Description | Role |
-|---------|------------|------|
-| Slope | Terrain steepness derived from a Digital Elevation Model (DEM) | Limiting |
-| Land Use / Land Cover (LULC) | Current land use classification | Restrictive |
-| Distance to Roads | Accessibility and transportation efficiency | Positive |
-| Distance to Settlements | Proximity to population centers and services | Positive |
-| Environmental Constraints | Protected or restricted areas | Exclusion |
+### 1. Multi-Criteria Suitability Map
+A high-resolution GeoTIFF (up to 10m/pixel) classifying the territory into 5 actionable levels: *Very Low, Low, Moderate, High, and Very High*.
 
-All criteria can be modified, added, or removed depending on the planning objective.
+### 2. Area Distribution Analytics
+We don't just provide a map; we provide numbers. This includes a quantified breakdown of hectares available per suitability class to help calculate project feasibility.
+> **Key Insight:** In our baseline model, we successfully filtered 18,348 Ha of "Very Low" suitability, focusing efforts on the top 10% of the territory.
 
----
-
-## Methodology
-The analysis follows a standardized MCDA workflow commonly used in applied GIS projects:
-
-### 1. Spatial Preprocessing
-- Reprojection to a common Coordinate Reference System (CRS)
-- Raster alignment (resolution and extent)
-- Clipping to the municipal boundary
-- NoData and mask handling
-
-### 2. Criteria Standardization
-- Normalization of continuous variables (e.g. slope, distances)
-- Reclassification of categorical layers (e.g. land use)
-- Conversion to a common suitability scale
-
-### 3. Weight Assignment
-- User-defined weights based on expert judgment or planning priorities
-- Weight normalization to ensure consistency
-
-### 4. Weighted Overlay
-- Raster-based aggregation of all standardized criteria into a continuous suitability index
-
-### 5. Final Classification
-- Classification of suitability into discrete classes (e.g. low, medium, high)
-- Generation of cartographic outputs and summary statistics
+### 3. Spatial Reliability Report (Statistical Validation)
+To ensure the model isn't random, we run advanced spatial tests:
+* **Global Moran's I:** Confirms that high-suitability areas are geographically clustered (essential for logistics).
+* **Z-Score & P-Value:** Provides a 99% confidence level that the patterns found are statistically significant.
+* **Pearson Correlation Matrix:** Ensures that input criteria are independent, avoiding "double-counting" bias in the final score.
 
 ---
 
-## Why This Analysis Matters
-This type of land suitability analysis supports:
+## 🛠️ Technical Workflow & Criteria
+The system uses a **Weighted Linear Combination (WLC)** method, the industry standard for MCDA in GIS.
 
-- Evidence-based municipal land-use planning
-- Identification of priority areas for agricultural or rural development
-- Reduction of environmental and logistical risks
-- Transparent and reproducible spatial decision-making
-- Communication of complex spatial information to non-technical stakeholders
-
----
-
-## Outputs
-- Continuous land suitability raster (GeoTIFF)
-- Classified suitability map
-- Spatial statistics per suitability class
-- Publication-ready cartographic outputs
+| Criterion | Type | Rationale |
+| :--- | :--- | :--- |
+| **Slope (DEM)** | Restriction | Limits mechanization and increases erosion risk if >15%. |
+| **LULC (WorldCover)** | Friction | Categorizes current land use (Forest, Grassland, Cropland). |
+| **Logistics (Roads)** | Driver | Minimizes transport costs and improves market access. |
+| **Urban Proximity** | Driver | Ensures access to labor and services. |
+| **Protected Areas** | Exclusion | Masking out zones with legal/environmental restrictions. |
 
 ---
 
-## Project Structure
+## 💻 Software Architecture
+This is a **productized pipeline** built for reproducibility. It can be re-run with new weights in seconds to test different "What-if" scenarios.
+
 ```text
 Land_suitability/
 │
-├─ src/                  # Source code
-│   ├─ preprocessing/
-│   ├─ suitability/
-│   └─ utils/
+├─ scripts/                  # Source code
+│    ├─ pipeline/
+│    │     ├─ 01a_prepare_aoi.py
+│    │     ├─ 01b_create_base_grid.py
+│    │     ├─ 02a_download_dem.py
+│    │     ├─ 02b_download_roads.py
+│    │     ├─ 02c_download_worldcover.py
+│    │     ├─ 03a_process_elevation.py
+│    │     ├─ 03b_process_roads_distance.py
+│    │     ├─ 03c_process_landuse.py
+│    │     ├─ 03d_process_slope.py
+│    │     ├─ 04_run_suitability_model
+│    │     ├─ 05_create_final_map.py
+│    │     └─ 05_create_final_report.py
+│    │
+│    ├─ analysis/
+│    │     ├─ 01_area_distribution.py
+│    │     ├─ 02_zonal_statistics.py
+│    │     ├─ 03_Moran_test.py
+│    │     └─ 04_Pearson_correlation.py
+│    │
+│    └─ utils/
+│          ├─ align_dem.py
+│          ├─ municipality.py
+│          └─ reclassify_landuse.py
 │
-├─ data/                 # Input datasets
+├─ data/                 # datasets
 │   ├─ raw/
 │   └─ processed/
+│       ├─ lulc_suitability.tif
+│       ├─ roads_distance_norm.tif
+│       ├─ slope_norm.tif
+│       └─ elevation_norm.tif
 │
-├─ outputs/              # Results
-│   ├─ rasters/
+├─ outputs/              # Results   
 │   ├─ maps/
-│   └─ tables/
+│   │    └─ Final_map.pdf
+│   │
+│   ├─ plots_and_tables/
+│   │    ├─ Area_distribution.csv
+│   │    ├─ Area_distribution.png
+│   │    └─ Correlation_plot.png
+│   │
+│   └─ report/
+│        └─ final_report.pdf
 │
 ├─ config/               # Configuration files (weights, rules)
 ├─ README.md
-├─ requirements.txt
-└─ .gitignore
-
+├─ requirements.txt  
+└─ .gitignore 
+```
 ---
 
 ## Reproducibility and Adaptability
@@ -120,13 +111,21 @@ All dependencies are managed through a virtual environment and documented in `re
 ## Tools and Technologies
 - Python
 - PyQGIS (QGIS Processing Framework)
-- GeoPandas
-- Rasterio
-- NumPy
 - Matplotlib
+- numpy==1.26.4
+- pandas==2.1.4
+- pyproj==3.6.1
+- rasterio==1.3.9
+- fiona==1.9.5
+- shapely==2.0.3
+- geopandas==0.14.3
+- scipy==1.11.4
+ 
+---
+
+## 👨‍💻 Author & Consultancy
+**Santiago Gallego** Agronomist Engineer | Geospatial Software Developer I bridge the gap between **Agronomy**, **Data Science**, and **GIS** to provide actionable intelligence for the AgTech sector.
 
 ---
 
-## Author
-**Santiago Gallego**  
-Geospatial Analyst | GIS & Spatial Data Science
+**Ready to optimize your land selection process?** 
