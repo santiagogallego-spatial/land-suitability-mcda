@@ -13,7 +13,6 @@ __pycache__/
 
 # Large / raw data files
 data/raw/
-data/processed/
 qgis/
 
 # OS generated files

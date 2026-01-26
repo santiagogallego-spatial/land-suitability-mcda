@@ -38,7 +38,7 @@ The system uses a **Weighted Linear Combination (WLC)** method, the industry sta
 | **Slope (DEM)** | Restriction | Limits mechanization and increases erosion risk if >15%. |
 | **LULC (WorldCover)** | Friction | Categorizes current land use (Forest, Grassland, Cropland). |
 | **Logistics (Roads)** | Driver | Minimizes transport costs and improves market access. |
-| **Urban Proximity** | Driver | Ensures access to labor and services. |
+| **Elevation** | Driver |Constraint	Influences climate conditions, agricultural viability, and infrastructure costs. |
 | **Protected Areas** | Exclusion | Masking out zones with legal/environmental restrictions. |
 
 ---
