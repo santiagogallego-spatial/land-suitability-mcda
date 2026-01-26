@@ -25,4 +25,5 @@ Thumbs.db
 *.ovr
 *.qmd
 .qgis/
-
+*.qgs~
+*.qgs
