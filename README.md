@@ -18,8 +18,17 @@ Identifying the optimal location for high-scale projects is a multi-million doll
 ### 1. Multi-Criteria Suitability Map
 A high-resolution GeoTIFF (up to 10m/pixel) classifying the territory into 5 actionable levels: *Very Low, Low, Moderate, High, and Very High*.
 
+<p align="center">
+  <img src="outputs/final_map.png" width="600" title="Suitability Map">
+</p>
+
 ### 2. Area Distribution Analytics
 We don't just provide a map; we provide numbers. This includes a quantified breakdown of hectares available per suitability class to help calculate project feasibility.
+
+<p align="center">
+  <img src="outputs/Area_distribution.png" width="600" title="Suitability Map">
+</p>
+
 > **Key Insight:** In our baseline model, we successfully filtered 18,348 Ha of "Very Low" suitability, focusing efforts on the top 10% of the territory.
 
 ### 3. Spatial Reliability Report (Statistical Validation)
@@ -27,6 +36,10 @@ To ensure the model isn't random, we run advanced spatial tests:
 * **Global Moran's I:** Confirms that high-suitability areas are geographically clustered (essential for logistics).
 * **Z-Score & P-Value:** Provides a 99% confidence level that the patterns found are statistically significant.
 * **Pearson Correlation Matrix:** Ensures that input criteria are independent, avoiding "double-counting" bias in the final score.
+
+<p align="center">
+  <img src="outputs/correlation_plot.png" width="600" title="Suitability Map">
+</p>
 
 ---
 
